@@ -73,9 +73,11 @@ public class Country {
 
 		int thisSum = this.rollDice();
 		int otherSum = other.rollDice();
+		Player temp = null;
 
 		if (thisSum > otherSum) {
 			System.out.println("Offensive country wins!");
+			temp = other.player;
 			other.ruler = this.ruler;
 			other.player = this.player;
 			other.troops = this.troops - 1;
@@ -87,7 +89,7 @@ public class Country {
 		}
 
 		this.player.getTerritories();
-		other.player.getTerritories();
+		if (temp != null) temp.getTerritories();
 	}
 
 	public int rollDice() {
@@ -96,6 +98,13 @@ public class Country {
 			sum += (int)(Math.random() * 6) + 1;
 		}
 		return sum;
+	}
+
+	public boolean hasValidTarget() {
+		for (int i = 0; i < neighbors.size(); i++) {
+			if (neighbors.get(i).ruler != this.ruler) return true;
+		}
+		return false;
 	}
 
 }

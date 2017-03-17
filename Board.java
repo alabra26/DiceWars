@@ -11,13 +11,15 @@ public class Board {
 	public int noCountries;
 	public int noPlayers;
 	public Player[] players;
+	public int noHumans;
 
-	public Board(int dim, int noCountries, int noPlayers) {
+	public Board(int dim, int noCountries, int noPlayers, int noHumans) {
 		this.tiles = new int[dim][dim];
 		this.pointTiles = new Point[dim][dim];
 		this.dim = dim;
 		this.noCountries = noCountries;
 		this.noPlayers = noPlayers;
+		this.noHumans = noHumans;
 		players = new Player[noPlayers];
 		initialize();
 	}
@@ -119,10 +121,9 @@ public class Board {
 		}
 
 		for (i = 0; i < this.noPlayers; i++) {
-			players[i] = new Player(this, i, (i==0));
+			players[i] = new Player(this, i, (i<noHumans));
 		}
 
-		System.out.println(players[0]);
 	}
 
 	public void display() {
@@ -143,7 +144,7 @@ public class Board {
 
 		StdDraw.setPenColor(StdDraw.BLACK);
 		for (int i = 0; i < this.noCountries; i++) {
-			if (this.countries[i].ruler == whoseTurn && this.countries[i].troops > 1) {
+			if (this.countries[i].ruler == whoseTurn && this.countries[i].troops > 1 && this.countries[i].hasValidTarget()) {
 				StdDraw.text(this.countries[i].center.x + 0.5, this.countries[i].center.y + 0.5, 
 						Integer.toString(person.getCountryIndex(this.countries[i])));
 			}
@@ -222,7 +223,7 @@ public class Board {
 			} 
 		}
 
-		double[][] combos = {{0,1},{-1,0},{1,0},{0,-1},{-1.1,-1.1},{-1.1,1.1},{-1.1,-1.1},{1.1,-1.1}};
+		double[][] combos = {{0,1},{-1,0},{1,0},{0,-1},{1.1,1.1},{-1.1,1.1},{-1.1,-1.1},{1.1,-1.1}};
 
 		StdDraw.setPenColor(StdDraw.BLACK);
 		for (int i = 0; i < noCountries; i++) {
