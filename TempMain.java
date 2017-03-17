@@ -23,9 +23,12 @@ public class TempMain {
 		while (cont) {
 			for (int i = 0; i < brd.noPlayers; i++) {
 				boolean turnOver = false;
-				while (!turnOver){
-					brd.display(brd.players[i]);
 
+				brd.players[1].getTerritories();
+
+				// Human takes a turn
+				if (brd.players[i].isHuman) while (!turnOver){
+					brd.display(brd.players[i]);
 					Country defense = null, offense = null;
 					int x;
 					boolean done = false;
@@ -41,7 +44,7 @@ public class TempMain {
 
 						try {
 							offense = brd.players[i].territories.get(x);
-							if (offense.troops > 1) 
+							if (offense.troops > 1) //THIS IS NOT THE ONLY NECESSARY CHECK
 								done = true;
 						} catch (Exception e) {
 							System.out.println("Invalid choice");
@@ -65,6 +68,20 @@ public class TempMain {
 
 						offense.fight(defense);
 					}
+				} 
+
+				//AI takes a turn
+				else while (!turnOver) {
+					brd.display();
+
+					Country[] moveChoice = brd.players[i].chooseMove();
+
+					if (moveChoice[0] != null) {
+						moveChoice[0].fight(moveChoice[1]);
+						brd.display(brd.players[i]);
+						brd.display(brd.players[i], moveChoice[0]);
+					}
+					else turnOver = true;
 				}
 
 				brd.players[i].reinforce();

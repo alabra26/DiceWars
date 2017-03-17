@@ -81,13 +81,13 @@ public class Country {
 			other.troops = this.troops - 1;
 			this.troops = 1;
 
-			this.player.getTerritories();
-			other.player.getTerritories();
 		} else {
 			System.out.println("Defensive country wins!");
 			this.troops = 1;
 		}
 
+		this.player.getTerritories();
+		other.player.getTerritories();
 	}
 
 	public int rollDice() {

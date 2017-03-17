@@ -119,7 +119,7 @@ public class Board {
 		}
 
 		for (i = 0; i < this.noPlayers; i++) {
-			players[i] = new Player(this, i);
+			players[i] = new Player(this, i, (i==0));
 		}
 
 		System.out.println(players[0]);

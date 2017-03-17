@@ -6,16 +6,18 @@ public class Player {
 	int noReinforcements;
 	Board brd;
 	int playerNo;
+	boolean isHuman;
 
-	public Player(Board brd, int pn) {
+	public Player(Board brd, int pn, boolean isHuman) {
 		this.brd = brd;
 		this.playerNo = pn;
 		this.getTerritories();
 		this.noReinforcements = this.noTerritories;
+		this.isHuman = isHuman;
 	}
 
 	public void getTerritories() {
-		territories = new ArrayList<>();
+		this.territories = new ArrayList<>();
 		this.noReinforcements = 0;
 
 		for (int i = 0; i < this.brd.noCountries; i++) {
@@ -56,9 +58,27 @@ public class Player {
 			available.get(i).troops++;
 			n++;
 			this.brd.display();
-			if (territories.get(i).troops == 8) {
+			if (territories.get(i).troops > 7) {
 				available.remove(i);
 			}
 		}
 	}
+
+	public Country[] chooseMove() {
+		Country[] returnable = new Country[2];
+
+		for (int i = 0; i < this.territories.size(); i++) {
+			Country temp = this.territories.get(i);
+			for (int j = 0; j < temp.neighbors.size(); j++) {
+				if (temp.neighbors.get(j).troops <= temp.troops && temp.troops > 1) {
+					returnable[0] = temp;
+					returnable[1] = temp.neighbors.get(j);
+					return returnable;
+				}
+			}
+		}
+
+		return returnable;
+	}
+
 }
