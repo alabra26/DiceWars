@@ -16,11 +16,13 @@ public class Player {
 
 	public void getTerritories() {
 		territories = new ArrayList<>();
+		this.noReinforcements = 0;
 
 		for (int i = 0; i < this.brd.noCountries; i++) {
 			if (this.brd.countries[i].ruler == this.playerNo) {
 				this.territories.add(this.brd.countries[i]);
 				this.noTerritories++;
+				this.noReinforcements++;
 				this.brd.countries[i].player = this;
 			}
 		}

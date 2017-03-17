@@ -240,7 +240,7 @@ public class Board {
 			StdDraw.setPenColor((int)rgb[0],(int)rgb[1], (int)rgb[2]);
 			StdDraw.filledRectangle(this.dim + 12, this.dim-10-3*i, 10, 1);
 			StdDraw.setPenColor(StdDraw.BLACK);
-			StdDraw.text(this.dim + 12, this.dim-10-3*i, "Player "+i);
+			StdDraw.text(this.dim + 12, this.dim-10-3*i, "Player "+i + " : " + this.players[i].noReinforcements);
 		}
 
 		StdDraw.setPenColor(StdDraw.WHITE);

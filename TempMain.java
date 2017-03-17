@@ -19,6 +19,7 @@ public class TempMain {
 		boolean cont = true;
 		
 
+		//main game loop
 		while (cont) {
 			for (int i = 0; i < brd.noPlayers; i++) {
 				boolean turnOver = false;
