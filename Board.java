@@ -130,7 +130,7 @@ public class Board {
 
 		this.drawBasic();
 		StdDraw.show();
-		StdDraw.pause(100);
+		// StdDraw.pause(100);
 
 	}
 
@@ -159,7 +159,7 @@ public class Board {
 		StdDraw.text(this.dim + 12, 5, "(type -1 to end turn)");
 		
 		StdDraw.show();
-		StdDraw.pause(100);
+		// StdDraw.pause(100);
 	}
 
 	public void display (Player person, Country country) {
@@ -190,11 +190,14 @@ public class Board {
 		StdDraw.setPenColor(200,0,0);
 		StdDraw.text(this.dim + 12, 6.5, "country to attack");
 		StdDraw.show();
-		StdDraw.pause(100);
+		// StdDraw.pause(100);
 
 	}
 
 	public void drawBasic() {
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.filledRectangle(0,0,dim*2,dim*2);
+
 		for (int i = 0; i < this.dim; i++) {
 			for (int j = 0; j < this.dim; j++) {
 
@@ -238,10 +241,11 @@ public class Board {
 		for (int i = 0; i < noPlayers; i++) {
 			int[] rgb = this.getRGB((int)(i*(360/noPlayers) + 5),(float)0.8,(float)0.5);
 
-			StdDraw.setPenColor((int)rgb[0],(int)rgb[1], (int)rgb[2]);
+			if (this.players[i].isAlive()) StdDraw.setPenColor((int)rgb[0],(int)rgb[1], (int)rgb[2]);
+			else StdDraw.setPenColor(StdDraw.BLACK);
 			StdDraw.filledRectangle(this.dim + 12, this.dim-10-3*i, 10, 1);
 			StdDraw.setPenColor(StdDraw.BLACK);
-			StdDraw.text(this.dim + 12, this.dim-10-3*i, "Player "+i + " : " + this.players[i].noReinforcements);
+			StdDraw.text(this.dim + 12, this.dim-10-3*i, "Player "+i + " : " + this.players[i].noReinforcements + "," + this.players[i].reserves);
 		}
 
 		StdDraw.setPenColor(StdDraw.WHITE);
@@ -295,6 +299,39 @@ public class Board {
 		else returnable[2] = (int) (255 * (t2));
 
 		return returnable;
+	}
+
+
+	public String writeInitToFile() {
+		String rtn = "";
+		for (int i = 0; i < noCountries; i++) {
+			for (int j = 0; j < noCountries; j++) {
+				if (countries[i].neighbors.contains(countries[j])) rtn += "1";
+				else rtn += "0";
+			}
+		}
+
+		for (int i = 0; i<noCountries; i++) {
+			for (int j = 0; j < noPlayers; j++) {
+				if (this.players[j].playerNo == countries[i].ruler) rtn += "1";
+				else rtn += "0";
+			}
+		}
+
+		for (int i = 0; i<noCountries; i++) {
+			rtn += countries[i].troops;
+		}
+
+		return rtn;
+	}
+
+	public String writeWinnerToFile(int winner) {
+		String rtn = "";
+		for (int i = 0; i < this.noPlayers; i++) {
+			if (i == winner) rtn += "1";
+			else rtn += "0";
+		}
+		return rtn;
 	}
 }
 

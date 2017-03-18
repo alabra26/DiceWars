@@ -11,7 +11,6 @@ public class Country {
 	Player player;
 	int troops;
 
-
 	public Country(int x, int y, int ruler, Board b) {
 		this.ruler = ruler;
 		this.center = new Point(x,y,0,this);
@@ -55,6 +54,13 @@ public class Country {
 		return (int)(this.id*100000);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Country)) return false;
+		Country other = (Country) obj;
+		return (this.center.x == other.center.x && this.center.y == other.center.y);
+	}
+
 	public int getNeighborIndex(Country c) {
 		return this.neighbors.indexOf(c);
 	}
@@ -76,7 +82,7 @@ public class Country {
 		Player temp = null;
 
 		if (thisSum > otherSum) {
-			System.out.println("Offensive country wins!");
+			// System.out.println("Offensive country wins!");
 			temp = other.player;
 			other.ruler = this.ruler;
 			other.player = this.player;
@@ -84,7 +90,7 @@ public class Country {
 			this.troops = 1;
 
 		} else {
-			System.out.println("Defensive country wins!");
+			// System.out.println("Defensive country wins!");
 			this.troops = 1;
 		}
 

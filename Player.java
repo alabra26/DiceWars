@@ -42,6 +42,7 @@ public class Player {
 		rtn += "Player "+this.playerNo+":\n";
 		rtn += "Controls " +this.noTerritories+ " territories\n";
 		rtn += "Will receive " + this.noReinforcements + " reinforcements\n";
+		rtn += "No. reserves: " + this.reserves;
 		return rtn;
 	}
 
@@ -62,6 +63,7 @@ public class Player {
 		while (n < noReinforcements + reserves) {
 			if (available.size() == 0 || available == null) {
 				this.reserves = (noReinforcements + reserves - n);
+				break;
 			} else {
 				int i = (int) (Math.random() * available.size());
 				if (available.get(i).troops >= 8) available.remove(i);
